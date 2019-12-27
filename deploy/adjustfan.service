@@ -1,0 +1,10 @@
+[Unit]
+Description=Argon One fan adjustment
+
+[Service]
+ExecStart=/opt/argononefan/adjustfan
+Restart=on-failure
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
