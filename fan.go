@@ -9,6 +9,7 @@ import (
 // Fan address on i2c bus
 const fanAddress = 0x1A
 
+// SetFanSpeed sets the fan speed
 func SetFanSpeed(speed int) error {
 
 	if speed < 0 || speed > 100 {
