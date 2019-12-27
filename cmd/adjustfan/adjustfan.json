@@ -1,0 +1,16 @@
+{
+    "thresholds": [
+        {
+            "temperature": 65,
+            "fanspeed": 100
+        },
+        {
+            "temperature": 60,
+            "fanspeed": 50
+        },
+        {
+            "temperature": 55,
+            "fanspeed": 10
+        }
+    ]
+}

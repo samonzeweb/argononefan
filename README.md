@@ -22,12 +22,46 @@ make
 sudo make install
 ```
 
-The tools are installer in `/opt/argononefan`
+The tools are installed in `/opt/argononefan`
+
 ## Uninstall
 
 ```
 sudo make uninstall
 ```
+
+## Change fan thresholds
+
+The file `/opt/argononefan/adjustfan.json` contains the configuration used to adjust the fan speed according to the CPU temperature.
+
+You can change its content, and restart the service with :
+
+```
+sudo systemctl restart adjustfan.service
+```
+
+An example :
+
+```json
+{
+    "thresholds": [
+        {
+            "temperature": 65,
+            "fanspeed": 100
+        },
+        {
+            "temperature": 60,
+            "fanspeed": 50
+        },
+        {
+            "temperature": 55,
+            "fanspeed": 10
+        }
+    ]
+}
+```
+
+Thresholds have to be ordered from the higher to lower temperature. Under the lowest temperature the fan is stopped.
 
 ## Licence
 

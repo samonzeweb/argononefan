@@ -8,6 +8,7 @@ mkdir $TARGET_PATH
 cp setfan $TARGET_PATH
 cp readtemp $TARGET_PATH
 cp adjustfan $TARGET_PATH
+cp cmd/adjustfan/adjustfan.json $TARGET_PATH
 chown -R root:root $TARGET_PATH
 chmod -R 555 $TARGET_PATH
 cp ./deploy/$SERVICE_NAME /etc/systemd/system

@@ -19,26 +19,23 @@ const adjustInterval = 5 * time.Second
 // This will not prevent the fan to speed up.
 const maintainSpeedInIntervalCount = 12
 
-type threshold struct {
-	temperature float32
-	fanspeed    int
-}
-
-var thresholds = [...]threshold{
-	threshold{temperature: 65, fanspeed: 100},
-	threshold{temperature: 60, fanspeed: 50},
-	threshold{temperature: 50, fanspeed: 10},
-}
+// Configuration file (in current directory)
+const configurationFile = "adjustfan.json"
 
 func main() {
+	configuration, err := readConfiguration(configurationFile)
+	if err != nil {
+		dislayErrorAndExit(err)
+	}
+
 	var stopsig = make(chan os.Signal, 1)
 	signal.Notify(stopsig, syscall.SIGTERM)
 
-	adjustFanLoop(stopsig)
+	adjustFanLoop(configuration, stopsig)
 	argononefan.SetFanSpeed(0)
 }
 
-func adjustFanLoop(stopsig <-chan os.Signal) {
+func adjustFanLoop(configuration *Configuration, stopsig <-chan os.Signal) {
 	previousFanSpeed := -1
 	intervalsWithCurrentSpeed := 0
 	for {
@@ -48,9 +45,9 @@ func adjustFanLoop(stopsig <-chan os.Signal) {
 		}
 
 		fanSpeed := 0
-		for _, t := range thresholds {
-			if cpuTemparature >= t.temperature {
-				fanSpeed = t.fanspeed
+		for _, t := range configuration.Thresholds {
+			if cpuTemparature >= t.Temperature {
+				fanSpeed = t.FanSpeed
 				break
 			}
 		}
