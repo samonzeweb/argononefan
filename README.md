@@ -11,7 +11,15 @@ The project creates 3 tools :
 * `setfan` : set the fan speed
 * `adjustfan` : automatic fan speed adjustment
 
-Both `setfan` and `adjustfan` require root privileges to access i2c device.
+Both `setfan` and `adjustfan` require root privileges to access I2C device.
+
+## Tested on...
+
+I created this for my personnal use, and only tested on a Raspberry Pi 4 using Ubuntu 19.10 (arm64).
+
+As the code use [gobot](https://gobot.io/) to access I2C device, it should run on other compatible OS.
+
+The deploy part is rather *quick & dirty*. But it works.
 
 ## Build and install
 
@@ -22,7 +30,7 @@ make
 sudo make install
 ```
 
-The tools are installed in `/opt/argononefan`
+The tools are installed in `/opt/argononefan`. After that `adjustfan` should run as a service. You can change thresholds (see below).
 
 ## Uninstall
 
