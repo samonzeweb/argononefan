@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/samonzeweb/argononefan"
@@ -29,8 +31,14 @@ var thresholds = [...]threshold{
 }
 
 func main() {
-	defer argononefan.SetFanSpeed(0)
+	var stopsig = make(chan os.Signal, 1)
+	signal.Notify(stopsig, syscall.SIGTERM)
 
+	adjustFanLoop(stopsig)
+	argononefan.SetFanSpeed(0)
+}
+
+func adjustFanLoop(stopsig <-chan os.Signal) {
 	previousFanSpeed := -1
 	intervalsWithCurrentSpeed := 0
 	for {
@@ -62,11 +70,18 @@ func main() {
 			}
 		}
 
-		time.Sleep(adjustInterval)
+		select {
+		case <-stopsig:
+			return
+		case <-time.After(adjustInterval):
+			// nothing
+		}
+
 	}
 }
 
 func dislayErrorAndExit(err error) {
 	fmt.Fprintln(os.Stderr, err)
+	_ = argononefan.SetFanSpeed(0)
 	os.Exit(1)
 }
