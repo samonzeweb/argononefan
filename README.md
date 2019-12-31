@@ -15,15 +15,16 @@ Both `setfan` and `adjustfan` require root privileges to access I2C device.
 
 ## Tested on...
 
-I created this for my personnal use, and only tested on a Raspberry Pi 4 using Ubuntu 19.10 (arm64).
+I created this for my personnal use, and only tested on a Raspberry Pi 4 using :
 
-As the code use [gobot](https://gobot.io/) to access I2C device, it should run on other compatible OS.
+* Ubuntu 19.10 (arm64).
+* Raspbian (arm32, based on Debian Buster). 
 
 The deploy part is rather *quick & dirty*. But it works.
 
 ## Build and install
 
-To build, and install the tools (including starting service) :
+To build, and install the tools (including starting adjustfan daemon) :
 
 ```
 make
